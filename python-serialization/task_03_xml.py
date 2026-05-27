@@ -5,18 +5,14 @@ import xml.etree.ElementTree as ET
 
 def serialize_to_xml(dictionary, filename):
     """Serialize a dictionary to an XML file."""
-    try:
-        root = ET.Element("data")
+    root = ET.Element("data")
 
-        for key, value in dictionary.items():
-            child = ET.SubElement(root, key)
-            child.text = str(value)
+    for key, value in dictionary.items():
+        child = ET.SubElement(root, key)
+        child.text = str(value)
 
-        tree = ET.ElementTree(root)
-        ET.indent(tree, space="  ")
-        tree.write(filename, encoding="utf-8", xml_declaration=True)
-    except Exception:
-        pass
+    tree = ET.ElementTree(root)
+    tree.write(filename, encoding="utf-8", xml_declaration=True)
 
 
 def deserialize_from_xml(filename):
@@ -27,19 +23,8 @@ def deserialize_from_xml(filename):
         data = {}
 
         for child in root:
-            text = child.text
-
-            if text is None:
-                value = None
-            else:
-                if text.isdigit():
-                    value = int(text)
-                else:
-                    try:
-                        value = float(text)
-                    except ValueError:
-                        value = text
-            data[child.tag] = value
+            data[child.tag] = child.text
         return data
+
     except Exception:
         return None
