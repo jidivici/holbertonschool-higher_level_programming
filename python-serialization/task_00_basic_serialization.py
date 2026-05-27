@@ -2,6 +2,7 @@
 """Module for basic JSON serialization and deserialization."""
 import json
 
+
 def serialize_and_save_to_file(data, filename):
     """
     Serialize a Python dictionary and save it to a JSON file.
