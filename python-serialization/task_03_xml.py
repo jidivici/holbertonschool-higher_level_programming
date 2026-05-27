@@ -12,26 +12,31 @@ def serialize_to_xml(dictionary, filename):
         child.text = str(value)
 
     tree = ET.ElementTree(root)
-    tree.write(filename, encoding="utf-8", xml_declaration=True)
+    tree.write(filename, encoding="utf-8")
 
 
 def deserialize_from_xml(filename):
     """Deserialize an XML file to a dictionary."""
-    tree = ET.parse(filename)
-    root = tree.getroot()
-    data = {}
+    try:
+        tree = ET.parse(filename)
+        root = tree.getroot()
+        data = {}
 
-    for child in root:
-        text = child.text
-        if text is None:
-            value = None
-        else:
-            try:
-                value = int(text)
-            except ValueError:
+        for child in root:
+            text = child.text
+            if text is None:
+                value = None
+            else:
                 try:
-                    value = float(text)
+                    value = int(text)
                 except ValueError:
-                    value = text
-        data[child.tag] = value
-    return data
+                    try:
+                        value = float(text)
+                    except ValueError:
+                        value = text
+            data[child.tag] = value
+
+        return data
+
+    except Exception:
+        return None
