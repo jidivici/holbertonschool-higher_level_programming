@@ -1,1 +1,44 @@
 #!/usr/bin/env python3
+"""Fetches posts from JSONPlaceholder API and saves them to a CSV file."""
+import requests
+import csv
+
+def fetch_and_print_posts():
+    try:
+        response = requests.get("https://jsonplaceholder.typicode.com/posts", timeout=5)
+        response.raise_for_status()
+        print(f"Status Code: {response.status_code}")
+        posts = response.json()
+
+        for post in posts[:10]:
+            print(post["title"])
+
+    except requests.exceptions.RequestException as e:
+        print(f"Erreur de requête : {e}")
+
+
+def fetch_and_save_posts():
+    try:
+        response = requests.get("https://jsonplaceholder.typicode.com/posts", timeout=5)
+        response.raise_for_status()
+        posts = response.json()
+
+        with open("posts.csv", "w", newline="", encoding="utf-8") as csvfile:
+            fieldnames = ["id", "title", "body"]
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+
+            filtered_posts = [
+                {"id": post["id"], "title": post["title"], "body": post["body"]}
+                for post in posts
+            ]
+            writer.writerows(filtered_posts)
+        print("Données sauvegardées dans posts.csv")
+    except requests.exceptions.RequestException as e:
+        print(f"Erreur de requête : {e}")
+    except IOError as e:
+        print(f"Erreur d'écriture du fichier : {e}")
+
+if __name__ == "__main__":
+    fetch_and_print_posts()
+    fetch_and_save_posts()
