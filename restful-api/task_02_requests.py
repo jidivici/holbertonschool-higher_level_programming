@@ -5,6 +5,7 @@ import csv
 
 
 def fetch_and_print_posts():
+    """Fetch all posts from JSONPlaceholder API and print their titles."""
     try:
         response = requests.get(
             "https://jsonplaceholder.typicode.com/posts", timeout=5
@@ -12,8 +13,7 @@ def fetch_and_print_posts():
         response.raise_for_status()
         print("Status Code: {}".format(response.status_code))
         posts = response.json()
-
-        for post in posts[:10]:
+        for post in posts:
             print("{}".format(post["title"]))
 
     except requests.exceptions.RequestException as e:
@@ -21,6 +21,7 @@ def fetch_and_print_posts():
 
 
 def fetch_and_save_posts():
+    """Fetch all posts from JSONPlaceholder API and save them to posts.csv."""
     try:
         response = requests.get(
             "https://jsonplaceholder.typicode.com/posts", timeout=5
@@ -38,15 +39,7 @@ def fetch_and_save_posts():
                 for post in posts
             ]
             writer.writerows(filtered_posts)
-
-        print("Données sauvegardées dans posts.csv")
-
     except requests.exceptions.RequestException as e:
-        print("Erreur de requête : {}".format(e))
+        print("Bad request: {}".format(e))
     except IOError as e:
-        print("Erreur d'écriture du fichier : {}".format(e))
-
-
-if __name__ == "__main__":
-    fetch_and_print_posts()
-    fetch_and_save_posts()
+        print("Access denied: {}".format(e))
