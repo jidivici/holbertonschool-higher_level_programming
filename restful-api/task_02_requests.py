@@ -3,23 +3,28 @@
 import requests
 import csv
 
+
 def fetch_and_print_posts():
     try:
-        response = requests.get("https://jsonplaceholder.typicode.com/posts", timeout=5)
+        response = requests.get(
+            "https://jsonplaceholder.typicode.com/posts", timeout=5
+        )
         response.raise_for_status()
-        print(f"Status Code: {response.status_code}")
+        print("Status Code: {}".format(response.status_code))
         posts = response.json()
 
         for post in posts[:10]:
-            print(post["title"])
+            print("{}".format(post["title"]))
 
     except requests.exceptions.RequestException as e:
-        print(f"Erreur de requête : {e}")
+        print("Erreur de requête : {}".format(e))
 
 
 def fetch_and_save_posts():
     try:
-        response = requests.get("https://jsonplaceholder.typicode.com/posts", timeout=5)
+        response = requests.get(
+            "https://jsonplaceholder.typicode.com/posts", timeout=5
+        )
         response.raise_for_status()
         posts = response.json()
 
@@ -33,11 +38,14 @@ def fetch_and_save_posts():
                 for post in posts
             ]
             writer.writerows(filtered_posts)
+
         print("Données sauvegardées dans posts.csv")
+
     except requests.exceptions.RequestException as e:
-        print(f"Erreur de requête : {e}")
+        print("Erreur de requête : {}".format(e))
     except IOError as e:
-        print(f"Erreur d'écriture du fichier : {e}")
+        print("Erreur d'écriture du fichier : {}".format(e))
+
 
 if __name__ == "__main__":
     fetch_and_print_posts()
