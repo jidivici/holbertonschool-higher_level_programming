@@ -3,12 +3,11 @@
 
 Logic:
 - Connect to MySQL using MySQLdb with credentials from argv
-- Use a WHERE clause with LIKE 'N%' to filter server-side (efficient)
-- ORDER BY id ASC guarantees deterministic output
-- if __name__ == "__main__" prevents execution on import
+- Use a WHERE clause with LIKE 'N%' to filter server-side
 """
 import MySQLdb
 import sys
+
 
 if __name__ == "__main__":
     db = MySQLdb.connect(
