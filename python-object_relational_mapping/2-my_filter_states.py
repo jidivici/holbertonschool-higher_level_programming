@@ -13,7 +13,7 @@ if __name__ == "__main__":
         db=sys.argv[3]
     )
     cursor = db.cursor()
-    name = sys.argv[4].strip()
+    name = sys.argv[4].replace("'", "\\'")
     query = ("SELECT * FROM states "
              "WHERE name = '{}' "
              "ORDER BY id ASC").format(name)
