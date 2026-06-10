@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """Displays all values in states where name matches the argument"""
 import MySQLdb
 import sys
