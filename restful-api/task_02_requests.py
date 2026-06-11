@@ -7,7 +7,7 @@ import csv
 def fetch_and_print_posts():
     """Fetch all posts from JSONPlaceholder API and print their titles."""
     response = requests.get("https://jsonplaceholder.typicode.com/posts")
-    response.raise_for_status()
+
     if response.status_code == 200:
         print("Status Code: {}".format(response.status_code))
         posts = response.json()
@@ -18,7 +18,7 @@ def fetch_and_print_posts():
 def fetch_and_save_posts():
     """Fetch all posts from JSONPlaceholder API and save them to posts.csv."""
     response = requests.get("https://jsonplaceholder.typicode.com/posts")
-    response.raise_for_status()
+
     if response.status_code == 200:
         posts = response.json()
         with open("posts.csv", "w", newline="", encoding="utf-8") as csvfile:
