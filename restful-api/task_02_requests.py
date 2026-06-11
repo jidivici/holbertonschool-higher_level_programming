@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """Fetches posts from JSONPlaceholder API and saves them to a CSV file."""
 import requests
 import csv
