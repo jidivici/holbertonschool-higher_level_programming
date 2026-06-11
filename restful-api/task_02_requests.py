@@ -13,8 +13,6 @@ def fetch_and_print_posts():
     for post in posts:
         print("{}".format(post["title"]))
 
-
-
 def fetch_and_save_posts():
     """Fetch all posts from JSONPlaceholder API and save them to posts.csv."""
     response = requests.get("https://jsonplaceholder.typicode.com/posts")
