@@ -7,15 +7,12 @@ import csv
 def fetch_and_print_posts():
     """Fetch all posts from JSONPlaceholder API and print their titles."""
     try:
-        response = requests.get(
-            "https://jsonplaceholder.typicode.com/posts", timeout=5
-        )
+        response = requests.get("https://jsonplaceholder.typicode.com/posts")
         response.raise_for_status()
         print("Status Code: {}".format(response.status_code))
         posts = response.json()
         for post in posts:
             print("{}".format(post["title"]))
-
     except requests.exceptions.RequestException as e:
         print("Erreur de requête : {}".format(e))
 
@@ -23,9 +20,7 @@ def fetch_and_print_posts():
 def fetch_and_save_posts():
     """Fetch all posts from JSONPlaceholder API and save them to posts.csv."""
     try:
-        response = requests.get(
-            "https://jsonplaceholder.typicode.com/posts", timeout=5
-        )
+        response = requests.get("https://jsonplaceholder.typicode.com/posts")
         response.raise_for_status()
         posts = response.json()
 
@@ -35,7 +30,8 @@ def fetch_and_save_posts():
             writer.writeheader()
 
             filtered_posts = [
-                {"id": post["id"], "title": post["title"], "body": post["body"]}
+                {"id": post["id"], "title": post["title"],
+                 "body": post["body"]}
                 for post in posts
             ]
             writer.writerows(filtered_posts)
