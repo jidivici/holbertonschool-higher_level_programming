@@ -21,13 +21,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 app = Flask(__name__)
-
-# Secret key used to sign and verify JWT tokens
 app.config["JWT_SECRET_KEY"] = "super-secret-key"
-
 auth = HTTPBasicAuth()
 jwt = JWTManager(app)
-
 
 users = {
     "user1": {
@@ -56,10 +52,8 @@ def verify_password(username, password):
         str or None: The username if credentials are valid, otherwise None.
     """
     user = users.get(username)
-
     if user and check_password_hash(user["password"], password):
         return username
-
     return None
 
 
