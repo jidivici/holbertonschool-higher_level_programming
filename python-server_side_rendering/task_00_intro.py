@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """Simple templating program generating invitation files."""
 
 import os
@@ -39,9 +39,7 @@ def generate_invitations(template, attendees):
         output = template
         for key in ["name", "event_title",
                     "event_date", "event_location"]:
-            value = attendee.get(key)
-            if value is None:
-                value = "N/A"
+            value = attendee.get(key) or "N/A"
             output = output.replace("{" + key + "}", str(value))
 
         filename = "output_{}.txt".format(index)

@@ -78,6 +78,12 @@ def products():
         return render_template(
             'product_display.html', error="File not found"
         )
+    except json.JSONDecodeError:
+        data = []
+    except (ValueError, KeyError):
+        return render_template(
+            'product_display.html', error="Invalid data"
+        )
 
     if product_id is not None:
         try:
