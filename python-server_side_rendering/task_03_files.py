@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """Flask app reading products from JSON or CSV."""
 
 import json

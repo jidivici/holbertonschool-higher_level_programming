@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """Flask app with dynamic content using Jinja loops."""
 
 import json
