@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Simple templating program generating invitation files."""
 
+import os
+
 
 def generate_invitations(template, attendees):
     """Generate invitation files from template and attendees.
@@ -43,6 +45,10 @@ def generate_invitations(template, attendees):
             output = output.replace("{" + key + "}", str(value))
 
         filename = "output_{}.txt".format(index)
+
+        if os.path.exists(filename):
+            print("{} already exists, skipping.".format(filename))
+            continue
 
         try:
             with open(filename, "w") as file:
