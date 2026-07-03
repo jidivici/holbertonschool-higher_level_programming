@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Flask application reading and displaying product data from JSON or CSV files."""
+"""Flask app reading products from JSON or CSV files."""
 
 import json
 import csv
@@ -32,14 +32,14 @@ def items():
 
 
 def read_json(filepath):
-    """Read and parse a JSON file containing a list of products."""
+    """Read and parse a JSON file containing products."""
     with open(filepath, 'r') as file:
         data = json.load(file)
     return data
 
 
 def read_csv(filepath):
-    """Read and parse a CSV file containing product data."""
+    """Read and parse a CSV file containing products."""
     products = []
     with open(filepath, 'r') as file:
         reader = csv.DictReader(file)
@@ -48,7 +48,7 @@ def read_csv(filepath):
                 "id": int(row["id"]),
                 "name": row["name"],
                 "category": row["category"],
-                "price": float(row["price"]),
+                "price": float(row["price"])
             }
             products.append(product)
     return products
@@ -60,7 +60,9 @@ def products():
     product_id = request.args.get('id')
 
     if source not in ('json', 'csv'):
-        return render_template('product_display.html', error="Wrong source")
+        return render_template(
+            'product_display.html', error="Wrong source"
+        )
 
     try:
         if source == 'json':
@@ -68,16 +70,22 @@ def products():
         else:
             data = read_csv('products.csv')
     except FileNotFoundError:
-        return render_template('product_display.html', error="File not found")
+        return render_template(
+            'product_display.html', error="File not found"
+        )
 
     if product_id is not None:
         try:
             product_id = int(product_id)
         except ValueError:
-            return render_template('product_display.html', error="Invalid id")
+            return render_template(
+                'product_display.html', error="Invalid id"
+            )
         filtered = [p for p in data if p.get("id") == product_id]
         if not filtered:
-            return render_template('product_display.html', error="Product not found")
+            return render_template(
+                'product_display.html', error="Product not found"
+            )
         data = filtered
 
     return render_template('product_display.html', products=data)
