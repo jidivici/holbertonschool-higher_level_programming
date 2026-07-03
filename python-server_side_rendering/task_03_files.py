@@ -25,10 +25,15 @@ def contact():
 
 @app.route('/items')
 def items():
-    with open('items.json', 'r') as file:
-        data = json.load(file)
-    items_list = data.get("items", [])
-    return render_template('items.html', items=items_list)
+    try:
+        with open('items.json', 'r') as file:
+            data = json.load(file)
+        items_list = data.get("items", [])
+        return render_template('items.html', items=items_list)
+    except FileNotFoundError:
+        return "Items file not found", 404
+    except json.JSONDecodeError:
+        return "Error decoding JSON", 500
 
 
 def read_json(filepath):

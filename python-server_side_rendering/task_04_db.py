@@ -9,31 +9,6 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 
 
-def create_database():
-    conn = sqlite3.connect('products.db')
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS Products (
-            id INTEGER PRIMARY KEY,
-            name TEXT NOT NULL,
-            category TEXT NOT NULL,
-            price REAL NOT NULL
-        )
-    ''')
-    cursor.execute('''
-        INSERT OR IGNORE INTO Products
-        (id, name, category, price)
-        VALUES
-        (1, 'Laptop', 'Electronics', 799.99),
-        (2, 'Coffee Mug', 'Home Goods', 15.99)
-    ''')
-    conn.commit()
-    conn.close()
-
-
-create_database()
-
-
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -51,10 +26,15 @@ def contact():
 
 @app.route('/items')
 def items():
-    with open('items.json', 'r') as file:
-        data = json.load(file)
-    items_list = data.get("items", [])
-    return render_template('items.html', items=items_list)
+    try:
+        with open('items.json', 'r') as file:
+            data = json.load(file)
+        items_list = data.get("items", [])
+        return render_template('items.html', items=items_list)
+    except FileNotFoundError:
+        return "Items file not found", 404
+    except json.JSONDecodeError:
+        return "Error decoding JSON", 500
 
 
 def read_json(filepath):
