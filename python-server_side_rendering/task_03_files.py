@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Flask app reading products from JSON or CSV files."""
+"""Flask app reading products from JSON or CSV."""
 
 import json
 import csv
@@ -32,14 +32,14 @@ def items():
 
 
 def read_json(filepath):
-    """Read and parse a JSON file containing products."""
+    """Read and parse a JSON file of products."""
     with open(filepath, 'r') as file:
         data = json.load(file)
     return data
 
 
 def read_csv(filepath):
-    """Read and parse a CSV file containing products."""
+    """Read and parse a CSV file of products."""
     products = []
     with open(filepath, 'r') as file:
         reader = csv.DictReader(file)
@@ -81,14 +81,19 @@ def products():
             return render_template(
                 'product_display.html', error="Invalid id"
             )
-        filtered = [p for p in data if p.get("id") == product_id]
+        filtered = []
+        for p in data:
+            if p.get("id") == product_id:
+                filtered.append(p)
         if not filtered:
             return render_template(
                 'product_display.html', error="Product not found"
             )
         data = filtered
 
-    return render_template('product_display.html', products=data)
+    return render_template(
+        'product_display.html', products=data
+    )
 
 
 if __name__ == '__main__':

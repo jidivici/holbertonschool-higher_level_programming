@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Flask app rendering dynamic content with Jinja loops."""
+"""Flask app with dynamic content using Jinja loops."""
 
 import json
 from flask import Flask, render_template

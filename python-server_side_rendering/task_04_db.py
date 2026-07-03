@@ -31,6 +31,9 @@ def create_database():
     conn.close()
 
 
+create_database()
+
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -55,14 +58,14 @@ def items():
 
 
 def read_json(filepath):
-    """Read and parse a JSON file containing products."""
+    """Read and parse a JSON file of products."""
     with open(filepath, 'r') as file:
         data = json.load(file)
     return data
 
 
 def read_csv(filepath):
-    """Read and parse a CSV file containing products."""
+    """Read and parse a CSV file of products."""
     products = []
     with open(filepath, 'r') as file:
         reader = csv.DictReader(file)
@@ -78,7 +81,7 @@ def read_csv(filepath):
 
 
 def read_sql(dbpath):
-    """Read product data from a SQLite database."""
+    """Read products from a SQLite database."""
     conn = sqlite3.connect(dbpath)
     cursor = conn.cursor()
     cursor.execute(
@@ -131,16 +134,20 @@ def products():
             return render_template(
                 'product_display.html', error="Invalid id"
             )
-        filtered = [p for p in data if p.get("id") == product_id]
+        filtered = []
+        for p in data:
+            if p.get("id") == product_id:
+                filtered.append(p)
         if not filtered:
             return render_template(
                 'product_display.html', error="Product not found"
             )
         data = filtered
 
-    return render_template('product_display.html', products=data)
+    return render_template(
+        'product_display.html', products=data
+    )
 
 
 if __name__ == '__main__':
-    create_database()
     app.run(debug=True, port=5000)
